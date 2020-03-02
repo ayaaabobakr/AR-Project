@@ -22,6 +22,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
 {
     using GoogleARCore;
     using UnityEngine;
+    using UnityEngine.UI;
 
     /// <summary>
     /// Controls the placement of objects via a tap gesture.
@@ -44,6 +45,10 @@ namespace GoogleARCore.Examples.ObjectManipulation
         /// </summary>
         public GameObject ManipulatorPrefab;
 
+        public Button AddButton;
+
+        private bool chosenPrefab = false;
+
         /// <summary>
         /// Returns true if the manipulation can be started for the given gesture.
         /// </summary>
@@ -53,6 +58,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
         {
             if (gesture.TargetObject == null)
             {
+
                 return true;
             }
 
@@ -76,11 +82,22 @@ namespace GoogleARCore.Examples.ObjectManipulation
                 return;
             }
 
+            // Ray ray = Camera.main.ScreenPointToRay(Vector3.forward);
+            // RaycastHit hitInfo;
+
+
+            
+            AddButton.gameObject.SetActive(true);
+    
+
             // Raycast against the location the player touched to search for planes.
+
             TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon;
 
-            if (Frame.Raycast(
+
+
+            if (chosenPrefab && Frame.Raycast(
                 gesture.StartPosition.x, gesture.StartPosition.y, raycastFilter, out hit))
             {
                 // Use hit pose and camera pose to check if hittest is from the
@@ -93,6 +110,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
                 }
                 else
                 {
+
                     // Instantiate game object at the hit pose.
                     var gameObject = Instantiate(PawnPrefab, hit.Pose.position, hit.Pose.rotation);
 
@@ -114,6 +132,16 @@ namespace GoogleARCore.Examples.ObjectManipulation
                     manipulator.GetComponent<Manipulator>().Select();
                 }
             }
+            chosenPrefab = false;
         }
+
+        public void SelectPrefab()
+        {
+            Debug.Log("hello I'm Clicked");
+            chosenPrefab = true;
+
+        }
+
+
     }
 }

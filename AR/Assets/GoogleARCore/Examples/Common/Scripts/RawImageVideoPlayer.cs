@@ -41,6 +41,7 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         public VideoPlayer VideoPlayer;
 
+
         private Texture m_RawImageTexture;
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace GoogleARCore.Examples.Common
                 VideoPlayer.Stop();
                 RawImage.texture = m_RawImageTexture;
                 VideoPlayer.enabled = false;
+
             }
         }
 

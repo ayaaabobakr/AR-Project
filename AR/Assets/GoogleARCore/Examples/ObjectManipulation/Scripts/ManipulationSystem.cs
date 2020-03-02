@@ -127,7 +127,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
         /// <summary>
         /// Gets the current selected object.
         /// </summary>
-        public GameObject SelectedObject { get; private set;  }
+        public GameObject SelectedObject { get; private set; }
 
         /// <summary>
         /// The Unity Awake() method.

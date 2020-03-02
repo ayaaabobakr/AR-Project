@@ -25,6 +25,7 @@ namespace GoogleARCore.Examples.HelloAR
     using GoogleARCore.Examples.Common;
     using UnityEngine;
     using UnityEngine.EventSystems;
+    using UnityEngine.UI;
 
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
@@ -41,6 +42,12 @@ namespace GoogleARCore.Examples.HelloAR
         /// background).
         /// </summary>
         public Camera FirstPersonCamera;
+
+        private GameObject prefab;
+
+        public Button AddButton;
+
+        public Material hitMaterial;
 
         /// <summary>
         /// A prefab to place when a raycast from a user touch hits a vertical plane.
@@ -68,6 +75,8 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         private bool m_IsQuitting = false;
 
+        private bool SelectedItem = false;
+
         /// <summary>
         /// The Unity Awake() method.
         /// </summary>
@@ -86,6 +95,7 @@ namespace GoogleARCore.Examples.HelloAR
             _UpdateApplicationLifecycle();
 
             // If the player has not touched the screen, we are done with this update.
+
             Touch touch;
             if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
             {
@@ -95,18 +105,28 @@ namespace GoogleARCore.Examples.HelloAR
             // Should not handle input if the player is pointing on UI.
             if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
+
                 return;
             }
+
+            AddButton.gameObject.SetActive(true);
+
+            Selected();
+
 
             // Raycast against the location the player touched to search for planes.
             TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
 
-            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
+            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit) && SelectedItem)
             {
                 // Use hit pose and camera pose to check if hittest is from the
                 // back of the plane, if it is, no need to create the anchor.
+                if (hit.Trackable is DetectedPlane)
+                {
+
+                }
                 if ((hit.Trackable is DetectedPlane) &&
                     Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
                         hit.Pose.rotation * Vector3.up) < 0)
@@ -151,6 +171,40 @@ namespace GoogleARCore.Examples.HelloAR
 
                     // Make game object a child of the anchor.
                     gameObject.transform.parent = anchor.transform;
+                }
+            }
+            SelectedItem = false;
+        }
+
+        public void Add()
+        {
+            SelectedItem = true;
+
+        }
+
+        private void Selected()
+        {
+
+            Touch touch = Input.GetTouch(0);
+            TrackableHit hit;
+            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
+                TrackableHitFlags.FeaturePointWithSurfaceNormal;
+
+
+            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+
+            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
+            {
+
+                foreach (GameObject item in items)
+                {
+                    if (hit.Equals(item))
+                    {
+                        prefab = item;
+                        prefab.GetComponent<MeshRenderer>().material = hitMaterial;
+                        //gameManager.GetComponent<gameManager>().prefab = prefab;
+                        return;
+                    }
                 }
             }
         }

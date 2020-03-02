@@ -88,6 +88,7 @@ namespace GoogleARCore.Examples.Common
         [Tooltip("The snackbar text.")]
         [SerializeField] private Text m_SnackBarText = null;
 
+
         /// <summary>
         /// The Game Object that contains the button to open the help window.
         /// </summary>
@@ -199,6 +200,7 @@ namespace GoogleARCore.Examples.Common
                 {
                     m_DetectedPlaneElapsed += Time.deltaTime;
                     m_NotDetectedPlaneElapsed = 0f;
+
                     return;
                 }
             }
@@ -219,6 +221,7 @@ namespace GoogleARCore.Examples.Common
                 m_FeaturePoints.SetActive(false);
                 m_HandAnimation.enabled = false;
                 m_SnackBar.SetActive(true);
+
                 switch (Session.LostTrackingReason)
                 {
                     case LostTrackingReason.InsufficientLight:
@@ -248,6 +251,7 @@ namespace GoogleARCore.Examples.Common
                 // The session has moved from the lost tracking state.
                 m_SnackBar.SetActive(false);
                 m_IsLostTrackingDisplayed = false;
+
             }
 
             if (m_NotDetectedPlaneElapsed > DisplayGuideDelay)
@@ -292,6 +296,7 @@ namespace GoogleARCore.Examples.Common
                 }
 
                 m_HandAnimation.enabled = false;
+                //AddButton.gameObject.SetActive(true);
             }
         }
 
