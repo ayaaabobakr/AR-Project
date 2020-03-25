@@ -108,6 +108,8 @@ namespace GoogleARCore.Examples.ObjectManipulation
                 {
                     DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
                     Pose pos = detectedPlane.CenterPose;
+                    
+                    //pos.position.y+=1;
 
                     var gameObject = Instantiate(PawnPrefab, pos.position, pos.rotation);
                     // Instantiate manipulator.

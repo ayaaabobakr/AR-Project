@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300598, g: 0.4921947, b: 0.5719239, a: 1}
+  m_IndirectSpecularColor: {r: 0.44300616, g: 0.49219513, b: 0.5719244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7922,7 +7922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c73a8f6fa77d28428c965a9ac7a1a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1513252861858756, guid: 8b604092cbb3d482da82845b61a6809b, type: 3}
+  prefab: {fileID: 6135131579454541388, guid: 0535dee5f6da552488183d5420a37095, type: 3}
   ObjectGenerator: {fileID: 1812720041}
   closePanel: {fileID: 1357223506}
 --- !u!1001 &1796857611
@@ -8110,10 +8110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirstPersonCamera: {fileID: 646831371}
-  PawnPrefab: {fileID: 1513252861858756, guid: 8b604092cbb3d482da82845b61a6809b, type: 3}
+  PawnPrefab: {fileID: 6135131579454541388, guid: 0535dee5f6da552488183d5420a37095,
+    type: 3}
   ManipulatorPrefab: {fileID: 1122865395318488, guid: 24556cd4924884d9aaa3d80135c8021d,
     type: 3}
-  AddButton: {fileID: 0}
   chosenPrefab: 0
 --- !u!4 &1812720043
 Transform:
@@ -8435,7 +8435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12.000015, y: 1}
+  m_AnchoredPosition: {x: -11.999939, y: 1}
   m_SizeDelta: {x: 0, y: -66.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1835694510
