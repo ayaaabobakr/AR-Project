@@ -45,9 +45,9 @@ namespace GoogleARCore.Examples.ObjectManipulation
         /// </summary>
         public GameObject ManipulatorPrefab;
 
-        public Button AddButton;
+        // public Button AddButton;
 
-        private bool chosenPrefab = false;
+        public bool chosenPrefab = false;
 
         /// <summary>
         /// Returns true if the manipulation can be started for the given gesture.
@@ -86,9 +86,9 @@ namespace GoogleARCore.Examples.ObjectManipulation
             // RaycastHit hitInfo;
 
 
-            
-            AddButton.gameObject.SetActive(true);
-    
+
+            // AddButton.gameObject.SetActive(true);
+
 
             // Raycast against the location the player touched to search for planes.
 
@@ -96,12 +96,8 @@ namespace GoogleARCore.Examples.ObjectManipulation
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon;
 
 
-
-            if (chosenPrefab && Frame.Raycast(
-                gesture.StartPosition.x, gesture.StartPosition.y, raycastFilter, out hit))
+            if (chosenPrefab && Frame.Raycast(Screen.width / 2, Screen.height / 2, raycastFilter, out hit))
             {
-                // Use hit pose and camera pose to check if hittest is from the
-                // back of the plane, if it is, no need to create the anchor.
                 if ((hit.Trackable is DetectedPlane) &&
                     Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
                         hit.Pose.rotation * Vector3.up) < 0)
@@ -110,38 +106,99 @@ namespace GoogleARCore.Examples.ObjectManipulation
                 }
                 else
                 {
+                    DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
+                    Pose pos = detectedPlane.CenterPose;
 
-                    // Instantiate game object at the hit pose.
-                    var gameObject = Instantiate(PawnPrefab, hit.Pose.position, hit.Pose.rotation);
-
+                    var gameObject = Instantiate(PawnPrefab, pos.position, pos.rotation);
                     // Instantiate manipulator.
                     var manipulator =
-                        Instantiate(ManipulatorPrefab, hit.Pose.position, hit.Pose.rotation);
+                        Instantiate(ManipulatorPrefab, pos.position, pos.rotation);
 
                     // Make game object a child of the manipulator.
                     gameObject.transform.parent = manipulator.transform;
 
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of
                     // the physical world evolves.
-                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    var anchor = hit.Trackable.CreateAnchor(pos);
 
                     // Make manipulator a child of the anchor.
                     manipulator.transform.parent = anchor.transform;
 
                     // Select the placed object.
                     manipulator.GetComponent<Manipulator>().Select();
+
+                    chosenPrefab = false;
+
                 }
+
             }
-            chosenPrefab = false;
+
+
+            //if (chosenPrefab && Frame.Raycast(
+              //  gesture.StartPosition.x, gesture.StartPosition.y, raycastFilter, out hit))
+            //{
+                // Use hit pose and camera pose to check if hittest is from the
+                // back of the plane, if it is, no need to create the anchor.
+                // if (chosenPrefab)
+                // {
+                //     DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
+                //     Pose pos = detectedPlane.CenterPose;
+
+                //     var gameObject = Instantiate(PawnPrefab, pos.position, pos.rotation);
+                //     // Instantiate manipulator.
+                //     var manipulator =
+                //         Instantiate(ManipulatorPrefab, pos.position, pos.rotation);
+
+                //     // Make game object a child of the manipulator.
+                //     gameObject.transform.parent = manipulator.transform;
+
+                //     // Create an anchor to allow ARCore to track the hitpoint as understanding of
+                //     // the physical world evolves.
+                //     var anchor = hit.Trackable.CreateAnchor(pos);
+
+                //     // Make manipulator a child of the anchor.
+                //     manipulator.transform.parent = anchor.transform;
+
+                //     // Select the placed object.
+                //     manipulator.GetComponent<Manipulator>().Select();
+
+                //     chosenPrefab = false;
+
+                // }
+                // if ((hit.Trackable is DetectedPlane) &&
+                //     Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
+                //         hit.Pose.rotation * Vector3.up) < 0)
+                // {
+                //     Debug.Log("Hit at back of the current DetectedPlane");
+                // }
+                // else
+                // {
+
+                //     // Instantiate game object at the hit pose.
+                //     var gameObject = Instantiate(PawnPrefab, hit.Pose.position, hit.Pose.rotation);
+
+                //     // Instantiate manipulator.
+                //     var manipulator =
+                //         Instantiate(ManipulatorPrefab, hit.Pose.position, hit.Pose.rotation);
+
+                //     // Make game object a child of the manipulator.
+                //     gameObject.transform.parent = manipulator.transform;
+
+                //     // Create an anchor to allow ARCore to track the hitpoint as understanding of
+                //     // the physical world evolves.
+                //     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                //     // Make manipulator a child of the anchor.
+                //     manipulator.transform.parent = anchor.transform;
+
+                //     // Select the placed object.
+                //     manipulator.GetComponent<Manipulator>().Select();
+
+                //     chosenPrefab = false;
+                // }
+            //334}
+
         }
-
-        public void SelectPrefab()
-        {
-            Debug.Log("hello I'm Clicked");
-            chosenPrefab = true;
-
-        }
-
 
     }
 }
