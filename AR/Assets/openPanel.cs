@@ -22,7 +22,7 @@ public class openPanel : MonoBehaviour
     public void OpenPanel()
     {
 
-
+        float delta = Screen.height + (4 * Screen.height) / 100;
         if (panel != null)
         {
 
@@ -43,7 +43,7 @@ public class openPanel : MonoBehaviour
                     // isOpen = animator.GetBool("open");
                     animator.SetBool("open", true);
                 }
-                LeanTween.move(panel, new Vector3(panelLocation.x, panelLocation.y - Screen.height, panelLocation.z), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.move(panel, new Vector3(panelLocation.x, panelLocation.y - delta, panelLocation.z), 1f).setEase(LeanTweenType.easeOutBack);
             }
 
         }

@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8b0bad76a8e4a738051b49934fef4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinScale: 0.45
-  MaxScale: 0.46
+  MinScale: 0.75
+  MaxScale: 0.76
 --- !u!114 &114170428801866882
 MonoBehaviour:
   m_ObjectHideFlags: 0
