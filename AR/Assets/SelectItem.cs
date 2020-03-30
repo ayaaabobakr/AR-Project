@@ -16,6 +16,8 @@ public class SelectItem : MonoBehaviour
     public int item_num = 7;
     private RectTransform panelDimensions;
 
+    public Sprite img;
+
     Rect buttonDimensions;
 
     private Vector2 newScale;
@@ -40,7 +42,7 @@ public class SelectItem : MonoBehaviour
         grid.spacing = new Vector2(160, 180);
         grid.padding = new RectOffset(50, 0, 50, 0);
 
-        grid.cellSize = new Vector2(100, 180);
+        grid.cellSize = new Vector2(140, 140);
         grid.childAlignment = TextAnchor.UpperLeft;
         newScale = panelDimensions.sizeDelta;
         newScale.x = (grid.spacing.x + grid.cellSize.x) * item_num + grid.padding.left + grid.padding.right;
@@ -56,8 +58,16 @@ public class SelectItem : MonoBehaviour
             GameObject icon = Instantiate(button) as GameObject;
             icon.transform.SetParent(thisCanvas.transform, false);
             icon.transform.SetParent(panel.transform);
+
             // icon.AddComponent<LayoutElement>().flexibleHeight = 20;
-            icon.name = "item" + (i + 1);
+            var name = "item" + (i + 1);
+            icon.name = name;
+            // Debug.Log(name);
+            icon.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = name;
+            Sprite img = Resources.Load<Sprite>("img1") as Sprite;
+            // icon.image = img;
+
+            icon.GetComponent<Image>().sprite = img;
 
         }
     }
