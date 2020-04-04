@@ -9,13 +9,12 @@ public class AddObject : MonoBehaviour
 
     public GameObject prefab;
     public GameObject ObjectGenerator;
-
     public GameObject closePanel;
     PawnManipulator manipulator;
+    
     void Start()
     {
         manipulator = ObjectGenerator.GetComponent<PawnManipulator>();
-
 
     }
 

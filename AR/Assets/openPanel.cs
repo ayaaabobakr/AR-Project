@@ -9,6 +9,8 @@ public class openPanel : MonoBehaviour
 
     Vector3 panelLocation;
 
+    public GameObject loadData;
+
     private void Start()
     {
 
@@ -38,6 +40,8 @@ public class openPanel : MonoBehaviour
             else
             {
                 panel.SetActive(true);
+                if (loadData.GetComponent<SelectItem>() != null)
+                    loadData.GetComponent<SelectItem>().loadButton();
                 if (animator != null)
                 {
                     // isOpen = animator.GetBool("open");

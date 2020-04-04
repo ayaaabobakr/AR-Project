@@ -1,48 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Firebase.Extensions;
+using Firebase.Firestore;
+using Firebase.Storage;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class SelectItem : MonoBehaviour
-{
+public class SelectItem : MonoBehaviour {
     // Start is called before the first frame update
 
     public GameObject button;
-
     public GameObject thisCanvas;
-
     public GameObject panel;
-
     public int item_num = 7;
     private RectTransform panelDimensions;
-
     public Sprite img;
-
     Rect buttonDimensions;
-
+    FirebaseFirestore db;
     private Vector2 newScale;
-    void Start()
-    {
-        panelDimensions = panel.GetComponent<RectTransform>();
-        buttonDimensions = button.GetComponent<RectTransform>().rect;
+    GameObject icon;
+    GameObject item;
+    public GameObject ObjectGenerator;
+    public GameObject closePanel;
 
-        SetUpGrid(panel);
-        loadButton();
+    void Start () {
+        panelDimensions = panel.GetComponent<RectTransform> ();
+        buttonDimensions = button.GetComponent<RectTransform> ().rect;
+        db = FirebaseFirestore.DefaultInstance;
+        // storage = FirebaseStorage.DefaultInstance;
+        // storage_ref = storage.GetReferenceFromUrl("gs://ar-project-3d092.appspot.com");
+        SetUpGrid (panel);
+        // loadButton();
 
     }
 
     // Update is called once per frame
 
-    void SetUpGrid(GameObject panel)
-    {
-        GridLayoutGroup grid = panel.AddComponent<GridLayoutGroup>();
+    void SetUpGrid (GameObject panel) {
+        GridLayoutGroup grid = panel.AddComponent<GridLayoutGroup> ();
 
         grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         grid.constraintCount = 1;
-        grid.spacing = new Vector2(160, 180);
-        grid.padding = new RectOffset(50, 0, 50, 0);
+        grid.spacing = new Vector2 (160, 180);
+        grid.padding = new RectOffset (50, 0, 50, 0);
 
-        grid.cellSize = new Vector2(140, 140);
+        grid.cellSize = new Vector2 (140, 140);
         grid.childAlignment = TextAnchor.UpperLeft;
         newScale = panelDimensions.sizeDelta;
         newScale.x = (grid.spacing.x + grid.cellSize.x) * item_num + grid.padding.left + grid.padding.right;
@@ -51,28 +55,71 @@ public class SelectItem : MonoBehaviour
 
     }
 
-    void loadButton()
-    {
-        for (int i = 0; i < item_num; i++)
-        {
-            GameObject icon = Instantiate(button) as GameObject;
-            icon.transform.SetParent(thisCanvas.transform, false);
-            icon.transform.SetParent(panel.transform);
+    public void loadButton () {
+        StartCoroutine (GetAssetBundle ());
+        Query categories = db.Collection ("categories");
+        categories.GetSnapshotAsync ().ContinueWithOnMainThread (task => {
+            QuerySnapshot allcategoriesQuerySnapshot = task.Result;
+            foreach (DocumentSnapshot documentSnapshot in allcategoriesQuerySnapshot.Documents) {
 
-            // icon.AddComponent<LayoutElement>().flexibleHeight = 20;
-            var name = "item" + (i + 1);
-            icon.name = name;
-            // Debug.Log(name);
-            icon.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = name;
-            Sprite img = Resources.Load<Sprite>("img1") as Sprite;
-            // icon.image = img;
+                Dictionary<string, object> collection = documentSnapshot.ToDictionary ();
+                StartCoroutine (LoadFromWeb (collection));
+            }
+        });
 
-            icon.GetComponent<Image>().sprite = img;
+    }
+    IEnumerator LoadFromWeb (Dictionary<string, object> collection) {
+        string url = collection["img"].ToString ();
+        UnityWebRequest wr = new UnityWebRequest (url);
+        DownloadHandlerTexture texDl = new DownloadHandlerTexture (true);
+        wr.downloadHandler = texDl;
+        GameObject icon = Instantiate (button) as GameObject;
+        icon.transform.SetParent (thisCanvas.transform, false);
+        icon.transform.SetParent (panel.transform);
+
+        var name = collection["name"];
+        icon.name = name.ToString ();
+        icon.GetComponentInChildren<TMPro.TextMeshProUGUI> ().text = name.ToString ();
+        Sprite img = Resources.Load<Sprite> ("img1") as Sprite;
+        icon.GetComponent<Image> ().sprite = img;
+        icon.AddComponent<AddObject> ();
+        yield return wr.SendWebRequest ();
+        if (!(wr.isNetworkError || wr.isHttpError)) {
+            Texture2D t = texDl.texture;
+            Sprite s = Sprite.Create (t, new Rect (0, 0, t.width, t.height), Vector2.zero, 1f);
+
+            icon.GetComponent<Image> ().sprite = s;
 
         }
     }
-    void Update()
-    {
+
+    IEnumerator GetAssetBundle () {
+        string url = "https://firebasestorage.googleapis.com/v0/b/ar-project-3d092.appspot.com/o/woodtable?alt=media&token=837fd36d-860f-4a99-a574-c7e1eb56c453";
+        WWW www = new WWW (url);
+        yield return www;
+        AssetBundle bundle = www.assetBundle;
+        if (www.error == null) {
+            Debug.Log ("Prefab is loaded");
+            item = (GameObject) bundle.LoadAsset ("wood table");
+            // Instantiate(item);
+            GameObject icon = Instantiate (button) as GameObject;
+            icon.transform.SetParent (thisCanvas.transform, false);
+            icon.transform.SetParent (panel.transform);
+
+            var name = "Test Prefab";
+            icon.name = name.ToString ();
+            icon.GetComponentInChildren<TMPro.TextMeshProUGUI> ().text = name.ToString ();
+            Sprite img = Resources.Load<Sprite> ("img1") as Sprite;
+            icon.GetComponent<Image> ().sprite = img;
+            item.AddComponent<BoxCollider>();
+            icon.AddComponent<AddObject> ().prefab = item;
+            icon.GetComponent<AddObject> ().closePanel = closePanel;
+            icon.GetComponent<AddObject> ().ObjectGenerator = ObjectGenerator;
+            icon.GetComponent<Button> ().onClick.AddListener (icon.GetComponent<AddObject> ().viewInSpace);
+
+        } else {
+            Debug.Log ("www.error");
+        }
 
     }
 }

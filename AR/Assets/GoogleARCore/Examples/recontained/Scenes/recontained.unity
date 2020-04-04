@@ -2746,6 +2746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 840665638}
+  loadData: {fileID: 1708828465}
 --- !u!1001 &690995859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4931,6 +4932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 840665638}
+  loadData: {fileID: 1708828465}
 --- !u!1 &1359724245
 GameObject:
   m_ObjectHideFlags: 0
@@ -6295,6 +6297,8 @@ MonoBehaviour:
   panel: {fileID: 1708828465}
   item_num: 7
   img: {fileID: 0}
+  ObjectGenerator: {fileID: 1812720041}
+  closePanel: {fileID: 1357223506}
 --- !u!1 &1711319691
 GameObject:
   m_ObjectHideFlags: 0
