@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300598, g: 0.4921947, b: 0.5719239, a: 1}
+  m_IndirectSpecularColor: {r: 0.44300616, g: 0.49219513, b: 0.5719244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5683,7 +5683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: item 1
+  m_text: Wood Chair
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5752,7 +5752,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1546526086}
-    characterCount: 6
+    characterCount: 10
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
@@ -7308,8 +7308,9 @@ GameObject:
   - component: {fileID: 2113403401}
   - component: {fileID: 2113403400}
   - component: {fileID: 2113403399}
+  - component: {fileID: 2113403402}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7376,7 +7377,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 513989377}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2113403402}
+        m_MethodName: viewInSpace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2113403400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7396,7 +7408,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c09769e99ba227c40b2d4b46f2312177, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29ced05042cc3c5479a92cedf9c03631, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7414,6 +7426,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113403397}
   m_CullTransparentMesh: 0
+--- !u!114 &2113403402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113403397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c73a8f6fa77d28428c965a9ac7a1a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5686728622871389366, guid: 456f0f3a7cb9823458aebdc581f1b262, type: 3}
+  ObjectGenerator: {fileID: 1812720041}
+  closePanel: {fileID: 1357223506}
 --- !u!1001 &2429577000402517814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7421,6 +7448,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2017883435}
     m_Modifications:
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_text
+      value: Wood Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999394435760, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2429576999917094192, guid: 627c7ada79b12324694bc722781bf914,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7528,13 +7585,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2429576999917094193, guid: 627c7ada79b12324694bc722781bf914,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999917094193, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 513989377}
+    - target: {fileID: 2429576999917094193, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: viewInSpace
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429576999917094193, guid: 627c7ada79b12324694bc722781bf914,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2429576999917094195, guid: 627c7ada79b12324694bc722781bf914,
         type: 3}
       propertyPath: m_Name
-      value: Button (1)
+      value: Chair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 627c7ada79b12324694bc722781bf914, type: 3}
@@ -7663,7 +7735,48 @@ PrefabInstance:
     - target: {fileID: 7510731325624671315, guid: bc5e6d4b00aaf914c9349d91fda221d2,
         type: 3}
       propertyPath: m_Name
-      value: Button1
+      value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_text
+      value: Wood Table
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258236, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325797258239, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -81
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510731325977458285, guid: bc5e6d4b00aaf914c9349d91fda221d2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d0b2ac65b90146c4c965a83b17d99894,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc5e6d4b00aaf914c9349d91fda221d2, type: 3}
