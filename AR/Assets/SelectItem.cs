@@ -33,7 +33,6 @@ public class SelectItem : MonoBehaviour {
         // storage_ref = storage.GetReferenceFromUrl("gs://ar-project-3d092.appspot.com");
         SetUpGrid (panel);
         // loadButton();
-
     }
 
     // Update is called once per frame
@@ -46,13 +45,12 @@ public class SelectItem : MonoBehaviour {
         grid.spacing = new Vector2 (160, 180);
         grid.padding = new RectOffset (50, 0, 50, 0);
 
-        grid.cellSize = new Vector2 (140, 140);
+        grid.cellSize = new Vector2(100, 180);
         grid.childAlignment = TextAnchor.UpperLeft;
         newScale = panelDimensions.sizeDelta;
         newScale.x = (grid.spacing.x + grid.cellSize.x) * item_num + grid.padding.left + grid.padding.right;
         panelDimensions.sizeDelta = newScale;
         // panelDimensions.anchoredPosition;
-
     }
 
     public void loadButton () {
@@ -66,8 +64,8 @@ public class SelectItem : MonoBehaviour {
                 StartCoroutine (LoadFromWeb (collection));
             }
         });
-
     }
+
     IEnumerator LoadFromWeb (Dictionary<string, object> collection) {
         string url = collection["img"].ToString ();
         UnityWebRequest wr = new UnityWebRequest (url);
@@ -89,7 +87,6 @@ public class SelectItem : MonoBehaviour {
             Sprite s = Sprite.Create (t, new Rect (0, 0, t.width, t.height), Vector2.zero, 1f);
 
             icon.GetComponent<Image> ().sprite = s;
-
         }
     }
 
@@ -120,6 +117,5 @@ public class SelectItem : MonoBehaviour {
         } else {
             Debug.Log ("www.error");
         }
-
     }
 }
