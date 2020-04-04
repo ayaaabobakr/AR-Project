@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Firebase.Extensions;
 using Firebase.Firestore;
-using Firebase.Storage;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -80,7 +79,6 @@ public class SelectItem : MonoBehaviour {
         icon.GetComponentInChildren<TMPro.TextMeshProUGUI> ().text = name.ToString ();
         Sprite img = Resources.Load<Sprite> ("img1") as Sprite;
         icon.GetComponent<Image> ().sprite = img;
-        icon.AddComponent<AddObject> ();
         yield return wr.SendWebRequest ();
         if (!(wr.isNetworkError || wr.isHttpError)) {
             Texture2D t = texDl.texture;
@@ -98,7 +96,6 @@ public class SelectItem : MonoBehaviour {
         if (www.error == null) {
             Debug.Log ("Prefab is loaded");
             item = (GameObject) bundle.LoadAsset ("wood table");
-            // Instantiate(item);
             GameObject icon = Instantiate (button) as GameObject;
             icon.transform.SetParent (thisCanvas.transform, false);
             icon.transform.SetParent (panel.transform);

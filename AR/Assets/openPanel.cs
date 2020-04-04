@@ -6,9 +6,7 @@ using UnityEngine;
 public class openPanel : MonoBehaviour
 {
     public GameObject panel;
-
     Vector3 panelLocation;
-
     public GameObject loadData;
 
     private void Start()
@@ -41,7 +39,9 @@ public class openPanel : MonoBehaviour
             {
                 panel.SetActive(true);
                 if (loadData.GetComponent<SelectItem>() != null)
+                {
                     loadData.GetComponent<SelectItem>().loadButton();
+                }
                 if (animator != null)
                 {
                     // isOpen = animator.GetBool("open");
