@@ -23,6 +23,8 @@ ModelImporter:
     100034: group_7
     100036: group_8
     100038: group_9
+    100040: Light
+    100042: skp_camera_Last_Saved_SketchUp_View
     400000: Camera
     400002: Comodino
     400004: //RootNode
@@ -43,7 +45,10 @@ ModelImporter:
     400034: group_7
     400036: group_8
     400038: group_9
+    400040: Light
+    400042: skp_camera_Last_Saved_SketchUp_View
     2000000: Camera
+    2000002: skp_camera_Last_Saved_SketchUp_View
     2100000: Material.001
     2100002: Material.002
     2300000: group_0
@@ -97,6 +102,7 @@ ModelImporter:
     4300028: group_14
     4300030: group_15
     4300032: group_15.001
+    10800000: Light
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -134,8 +140,8 @@ ModelImporter:
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
