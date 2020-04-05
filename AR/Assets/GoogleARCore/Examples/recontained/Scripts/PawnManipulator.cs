@@ -23,7 +23,6 @@ namespace GoogleARCore.Examples.ObjectManipulation
     using GoogleARCore;
     using UnityEngine;
     using UnityEngine.UI;
-    using System.Collections;
 
     /// <summary>
     /// Controls the placement of objects via a tap gesture.
@@ -83,6 +82,13 @@ namespace GoogleARCore.Examples.ObjectManipulation
                 return;
             }
 
+            // Ray ray = Camera.main.ScreenPointToRay(Vector3.forward);
+            // RaycastHit hitInfo;
+
+
+
+            // AddButton.gameObject.SetActive(true);
+
 
             // Raycast against the location the player touched to search for planes.
 
@@ -105,7 +111,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
 
                     var gameObject = Instantiate(PawnPrefab, pos.position, pos.rotation);
                     gameObject.transform.position += new Vector3(0, gameObject.transform.localScale.y / 2, 0);
-
+                    
 
                     // Instantiate manipulator.
                     var manipulator =
@@ -130,8 +136,41 @@ namespace GoogleARCore.Examples.ObjectManipulation
 
             }
 
+
+            // if ((hit.Trackable is DetectedPlane) &&
+            //     Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
+            //         hit.Pose.rotation * Vector3.up) < 0)
+            // {
+            //     Debug.Log("Hit at back of the current DetectedPlane");
+            // }
+            // else
+            // {
+
+            //     // Instantiate game object at the hit pose.
+            //     var gameObject = Instantiate(PawnPrefab, hit.Pose.position, hit.Pose.rotation);
+
+            //     // Instantiate manipulator.
+            //     var manipulator =
+            //         Instantiate(ManipulatorPrefab, hit.Pose.position, hit.Pose.rotation);
+
+            //     // Make game object a child of the manipulator.
+            //     gameObject.transform.parent = manipulator.transform;
+
+            //     // Create an anchor to allow ARCore to track the hitpoint as understanding of
+            //     // the physical world evolves.
+            //     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+            //     // Make manipulator a child of the anchor.
+            //     manipulator.transform.parent = anchor.transform;
+
+            //     // Select the placed object.
+            //     manipulator.GetComponent<Manipulator>().Select();
+
+            //     chosenPrefab = false;
+            // }
+            //334}
+
         }
 
     }
-
 }

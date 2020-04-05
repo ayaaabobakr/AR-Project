@@ -11,12 +11,16 @@ public class AddObject : MonoBehaviour
     public GameObject ObjectGenerator;
     public GameObject closePanel;
     PawnManipulator manipulator;
-    public string url;
-    public string prefabName;
-
+    
     void Start()
     {
         manipulator = ObjectGenerator.GetComponent<PawnManipulator>();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
     }
 
@@ -24,12 +28,6 @@ public class AddObject : MonoBehaviour
     {
         manipulator.chosenPrefab = true;
         manipulator.PawnPrefab = prefab;
-        // yield return StartCoroutine(GetAssetBundle());
-        // StartCoroutine(manipulator.GetAssetBundle());
         closePanel.GetComponent<openPanel>().OpenPanel();
     }
-
-
-
-
 }

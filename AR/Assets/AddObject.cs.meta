@@ -3,12 +3,7 @@ guid: 9c73a8f6fa77d28428c965a9ac7a1a9f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - prefab: {instanceID: 0}
-  - ObjectGenerator: {fileID: 4779912105618301270, guid: a6ec2a3cd599ef345bd218f76ec920d7,
-      type: 3}
-  - closePanel: {fileID: 3615943973696821397, guid: eac48619ca2244e4092a4cc4779b1fbd,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

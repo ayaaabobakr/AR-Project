@@ -7,120 +7,112 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class SelectItem : MonoBehaviour
-{
+public class SelectItem : MonoBehaviour {
     // Start is called before the first frame update
 
     public GameObject button;
     public GameObject thisCanvas;
     public GameObject panel;
+    public int item_num = 7;
     private RectTransform panelDimensions;
+    public Sprite img;
     Rect buttonDimensions;
     FirebaseFirestore db;
     private Vector2 newScale;
+    GameObject icon;
     GameObject item;
     public GameObject ObjectGenerator;
     public GameObject closePanel;
 
-    void Start()
-    {
-        panelDimensions = panel.GetComponent<RectTransform>();
-        buttonDimensions = button.GetComponent<RectTransform>().rect;
+    void Start () {
+        panelDimensions = panel.GetComponent<RectTransform> ();
+        buttonDimensions = button.GetComponent<RectTransform> ().rect;
         db = FirebaseFirestore.DefaultInstance;
-
+        // storage = FirebaseStorage.DefaultInstance;
+        // storage_ref = storage.GetReferenceFromUrl("gs://ar-project-3d092.appspot.com");
+        SetUpGrid (panel);
+        // loadButton();
     }
 
-    void SetUpGrid(GameObject panel, int item_num)
-    {
-        GridLayoutGroup grid = panel.AddComponent<GridLayoutGroup>();
+    // Update is called once per frame
+
+    void SetUpGrid (GameObject panel) {
+        GridLayoutGroup grid = panel.AddComponent<GridLayoutGroup> ();
+
         grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         grid.constraintCount = 1;
-        grid.spacing = new Vector2(100, 100);
-        grid.padding = new RectOffset(40, 40, 20, 0);
+        grid.spacing = new Vector2 (160, 180);
+        grid.padding = new RectOffset (50, 0, 50, 0);
 
-        grid.cellSize = new Vector2(203, 158);
+        grid.cellSize = new Vector2(100, 180);
         grid.childAlignment = TextAnchor.UpperLeft;
         newScale = panelDimensions.sizeDelta;
         newScale.x = (grid.spacing.x + grid.cellSize.x) * item_num + grid.padding.left + grid.padding.right;
         panelDimensions.sizeDelta = newScale;
+        // panelDimensions.anchoredPosition;
     }
 
-    public void loadButton()
-    {
-        Query products = db.Collection("Products");
-        // StartCoroutine(GetAssetBundle());
-
-        products.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-
+    public void loadButton () {
+        StartCoroutine (GetAssetBundle ());
+        Query categories = db.Collection ("categories");
+        categories.GetSnapshotAsync ().ContinueWithOnMainThread (task => {
             QuerySnapshot allcategoriesQuerySnapshot = task.Result;
-            SetUpGrid(panel, allcategoriesQuerySnapshot.Count + 1);
-            foreach (DocumentSnapshot documentSnapshot in allcategoriesQuerySnapshot.Documents)
-            {
+            foreach (DocumentSnapshot documentSnapshot in allcategoriesQuerySnapshot.Documents) {
 
-                Dictionary<string, object> product = documentSnapshot.ToDictionary();
-                StartCoroutine(LoadFromWeb(product));
+                Dictionary<string, object> collection = documentSnapshot.ToDictionary ();
+                StartCoroutine (LoadFromWeb (collection));
             }
         });
     }
 
-    IEnumerator LoadFromWeb(Dictionary<string, object> product)
-    {
-        var name = product["name"].ToString();
-        var imgURL = product["imgURL"].ToString();
-        var prefabURL = product["prefabURL"].ToString();
-
-
-        GameObject icon = Instantiate(button) as GameObject;
-        icon.transform.SetParent(thisCanvas.transform, false);
-        icon.transform.SetParent(panel.transform);
-        icon.name = name.ToString();
-        icon.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = name.ToString();
-        Sprite img = Resources.Load<Sprite>("img1") as Sprite;
-        icon.GetComponent<Image>().sprite = img;
-
-        AddObject addObj = icon.AddComponent<AddObject>();
-        addObj.closePanel = closePanel;
-        addObj.ObjectGenerator = ObjectGenerator;
-        icon.GetComponent<Button>().onClick.AddListener(addObj.viewInSpace);
-
-
-        yield return StartCoroutine(GetImage(imgURL, icon));
-        yield return StartCoroutine(GetAssetBundle(prefabURL, name, addObj));
-    }
-
-    IEnumerator GetImage(string url, GameObject icon)
-    {
-
-        UnityWebRequest wr = new UnityWebRequest(url);
-        DownloadHandlerTexture texDl = new DownloadHandlerTexture(true);
+    IEnumerator LoadFromWeb (Dictionary<string, object> collection) {
+        string url = collection["img"].ToString ();
+        UnityWebRequest wr = new UnityWebRequest (url);
+        DownloadHandlerTexture texDl = new DownloadHandlerTexture (true);
         wr.downloadHandler = texDl;
-        yield return wr.SendWebRequest();
-        if (!(wr.isNetworkError || wr.isHttpError))
-        {
-            Texture2D t = texDl.texture;
-            Sprite s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero, 1f);
+        GameObject icon = Instantiate (button) as GameObject;
+        icon.transform.SetParent (thisCanvas.transform, false);
+        icon.transform.SetParent (panel.transform);
 
-            icon.GetComponent<Image>().sprite = s;
+        var name = collection["name"];
+        icon.name = name.ToString ();
+        icon.GetComponentInChildren<TMPro.TextMeshProUGUI> ().text = name.ToString ();
+        Sprite img = Resources.Load<Sprite> ("img1") as Sprite;
+        icon.GetComponent<Image> ().sprite = img;
+        yield return wr.SendWebRequest ();
+        if (!(wr.isNetworkError || wr.isHttpError)) {
+            Texture2D t = texDl.texture;
+            Sprite s = Sprite.Create (t, new Rect (0, 0, t.width, t.height), Vector2.zero, 1f);
+
+            icon.GetComponent<Image> ().sprite = s;
         }
     }
-    IEnumerator GetAssetBundle(string url, string prefabName, AddObject addObj)
-    {
 
-        WWW www = new WWW(url);
-        Debug.Log("I'm here");
+    IEnumerator GetAssetBundle () {
+        string url = "https://firebasestorage.googleapis.com/v0/b/ar-project-3d092.appspot.com/o/woodtable?alt=media&token=837fd36d-860f-4a99-a574-c7e1eb56c453";
+        WWW www = new WWW (url);
         yield return www;
         AssetBundle bundle = www.assetBundle;
-        if (www.error == null)
-        {
-            Debug.Log("Prefab is loaded");
-            item = (GameObject)bundle.LoadAsset(prefabName);
+        if (www.error == null) {
+            Debug.Log ("Prefab is loaded");
+            item = (GameObject) bundle.LoadAsset ("wood table");
+            GameObject icon = Instantiate (button) as GameObject;
+            icon.transform.SetParent (thisCanvas.transform, false);
+            icon.transform.SetParent (panel.transform);
+
+            var name = "Test Prefab";
+            icon.name = name.ToString ();
+            icon.GetComponentInChildren<TMPro.TextMeshProUGUI> ().text = name.ToString ();
+            Sprite img = Resources.Load<Sprite> ("img1") as Sprite;
+            icon.GetComponent<Image> ().sprite = img;
             item.AddComponent<BoxCollider>();
-            addObj.prefab = item;
-        }
-        else
-        {
-            Debug.Log("www.error");
+            icon.AddComponent<AddObject> ().prefab = item;
+            icon.GetComponent<AddObject> ().closePanel = closePanel;
+            icon.GetComponent<AddObject> ().ObjectGenerator = ObjectGenerator;
+            icon.GetComponent<Button> ().onClick.AddListener (icon.GetComponent<AddObject> ().viewInSpace);
+
+        } else {
+            Debug.Log ("www.error");
         }
     }
 }
